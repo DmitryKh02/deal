@@ -45,7 +45,7 @@ public class DealController {
     }
 
     @PutMapping(value = "/calculate/{applicationId}")
-    @Operation(summary = "Выбор одного из предложений", description = "?????")
+    @Operation(summary = "Завершение регистрации + полный подсчёт кредита", description = "?????")
     public void calculationCreditParameters(@RequestBody FinishRegistrationRequestDTO finishRegistrationRequestDTO, @PathVariable String applicationId) {
         log.trace("/deal/offer Request: FinishRegistrationRequestDTO {}, applicationId {}", finishRegistrationRequestDTO, applicationId);
 
