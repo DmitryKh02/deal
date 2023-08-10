@@ -4,6 +4,7 @@ import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.Data;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import ru.neoflex.deal.dto.Response.PaymentSchedule;
 import ru.neoflex.deal.enums.CreditStatus;
 
 import javax.persistence.*;

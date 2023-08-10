@@ -38,23 +38,23 @@ public class Client {
     @Column(name = "email", nullable = false)
     String email;
 
-    @Column(name = "gender", nullable = false)
+    @Column(name = "gender")
     Gender gender;
 
-    @Column(name = "material_status", nullable = false)
+    @Column(name = "material_status")
     MaterialStatus materialStatus;
 
-    @Column(name = "dependent_amount", nullable = false)
+    @Column(name = "dependent_amount")
     Integer dependentAmount;
 
     @Type(type = "jsonb")
-    @Column(name = "passport", nullable = false)
+    @Column(name = "passport")
     Passport passport;
 
     @Type(type = "jsonb")
-    @Column(name = "employment", nullable = false)
+    @Column(name = "employment")
     Employment employment;
 
-    @Column(name = "account", nullable = false)
+    @Column(name = "account")
     String account;
 }

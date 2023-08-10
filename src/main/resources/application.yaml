@@ -9,4 +9,11 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
+server:
+  port: 8000
+logging:
+  group:
+    trace: ru.neoflex.conveyor, ru.neoflex.service, ru.neoflex.utils
+  level:
+    trace: TRACE
