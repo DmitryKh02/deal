@@ -1,7 +1,9 @@
-package ru.neoflex.deal.dto.Response;
+package ru.neoflex.deal.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import ru.neoflex.deal.dto.request.EmploymentDTO;
 import ru.neoflex.deal.enums.Gender;
 import ru.neoflex.deal.enums.MaterialStatus;
@@ -9,57 +11,59 @@ import ru.neoflex.deal.enums.MaterialStatus;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Data
+@AllArgsConstructor
 @Schema(description = "Данные для оформления кредита")
-public record ScoringDataDTO(
+public class ScoringDataDTO {
         @Schema(description = "Сумма кредита")
-        BigDecimal amount,
+        BigDecimal amount;
 
         @Schema(description = "Срок выдачи кредита в месяцах")
-        Integer term,
+        Integer term;
 
         @Schema(description = "Имя")
-        String firstName,
+        String firstName;
 
         @Schema(description = "Фамилия")
-        String lastName,
+        String lastName;
 
         @Schema(description = "Отчество")
         @JsonInclude(JsonInclude.Include.NON_NULL)
-        String middleName,
+        String middleName;
 
         @Schema(description = "Пол")
-        Gender gender,
+        Gender gender;
 
         @Schema(description = "День рождения")
-        LocalDate birthdate,
+        LocalDate birthdate;
 
         @Schema(description = "Серия паспорта")
-        String passportSeries,
+        String passportSeries;
 
         @Schema(description = "Номер паспорта")
-        String passportNumber,
+        String passportNumber;
 
         @Schema(description = "Дата выдачи паспорта")
-        LocalDate passportIssueDate,
+        LocalDate passportIssueDate;
 
         @Schema(description = "Кем выдан паспорт")
-        String passportIssueBranch,
+        String passportIssueBranch;
 
         @Schema(description = "Материальный статус")
-        MaterialStatus maritalStatus,
+        MaterialStatus maritalStatus;
 
         @Schema(description = "Число иждивенцев")
-        Integer dependentAmount,
+        Integer dependentAmount;
 
         @Schema(description = "Данные о работнике")
-        EmploymentDTO employment,
+        EmploymentDTO employment;
 
         @Schema(description = "Аккаунт")
-        String account,
+        String account;
 
         @Schema(description = "Включена ли страховка")
-        Boolean isInsuranceEnabled,
+        Boolean isInsuranceEnabled;
 
         @Schema(description = "Зарплатный клиент (зарплата в этом банке)")
-        Boolean isSalaryClient
-) {}
+        Boolean isSalaryClient;
+}

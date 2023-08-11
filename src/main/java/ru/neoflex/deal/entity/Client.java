@@ -1,6 +1,5 @@
 package ru.neoflex.deal.entity;
 
-
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.Data;
 import org.hibernate.annotations.Type;
@@ -32,8 +31,8 @@ public class Client {
     @Column(name = "last_name", length = 32, nullable = false)
     String lastName;
 
-    @Column(name = "birth_data", nullable = false)
-    LocalDate birthday;
+    @Column(name = "birth_date")
+    LocalDate birthdate;
 
     @Column(name = "email", nullable = false)
     String email;

@@ -9,7 +9,7 @@ Content-Type: application/json
   "lastName": "Ivanova",
   "middleName": "Sidorova",
   "email": "anna@example.com",
-  "birthdate": "2000-05-20",
+  "birthdate": "2002-05-07",
   "passportSeries": "1234",
   "passportNumber": "567890"
 }
@@ -29,64 +29,41 @@ Content-Type: application/json
   "passportNumber": "1234568"
 }
 
-### валидные данные
-POST http://localhost:8080/conveyor/calculation
+###
+PUT http://localhost:8000/deal/offer
 Content-Type: application/json
 
 {
-  "amount": 100000,
-  "term": 4,
-  "firstName": "Jane",
-  "lastName": "Smith",
-  "gender": "NOT_BINARY",
-  "birthdate": "2000-08-10",
-  "passportSeries": "5678",
-  "passportNumber": "123456",
-  "passportIssueDate": "2005-03-12",
-  "passportIssueBranch": "Local Passport Office",
-  "maritalStatus": "MARRIED",
-  "dependentAmount": 2,
-  "employment": {
-    "employmentStatus": "SELF_EMPLOYED",
-    "employerINN": "123456789012",
-    "salary": 30000,
-    "position": "MIDDLE_MANAGER",
-    "workExperienceTotal": 28,
-    "workExperienceCurrent": 12
-  },
-  "account": "9876543210",
-  "isInsuranceEnabled": true,
-  "isSalaryClient": true
+    "applicationId": 5,
+    "requestedAmount": 100000,
+    "totalAmount": 100000,
+    "term": 12,
+    "monthlyPayment": 8675.74,
+    "rate": 7.5,
+    "isInsuranceEnabled": false,
+    "isSalaryClient": true
 }
 
-### не валидные данные
-POST http://localhost:8080/conveyor/calculation
+###
+PUT http://localhost:8000/deal/calculate/5
 Content-Type: application/json
 
 {
-  "amount": 20000,
-  "term": 12,
-  "firstName": "John",
-  "lastName": "Doe",
-  "middleName": "Smith",
   "gender": "MALE",
-  "birthdate": "1990-05-15",
-  "passportSeries": "1234",
-  "passportNumber": "567890",
-  "passportIssueDate": "2010-02-20",
+  "materialStatus": "MARRIED",
+  "dependentAmount": 2,
+  "passportIssueDate": "2023-07-18",
   "passportIssueBranch": "Passport Office",
-  "maritalStatus": "MARRIED",
-  "dependentAmount": 1,
-  "employment": {
-    "employmentStatus": "UNEMPLOYED",
-    "employerINN": "1dfsf",
-    "salary": 0,
-    "position": "TOP_MANAGER",
-    "workExperienceTotal": 0,
-    "workExperienceCurrent": 0
+  "employmentDTO": {
+    "employmentStatus": "SELF_EMPLOYED",
+    "employerINN": "1234567890",
+    "salary": 50000,
+    "workPosition": "TOP_MANAGER",
+    "workExperienceTotal": 19,
+    "workExperienceCurrent": 8
   },
-  "account": "1234567890",
-  "isInsuranceEnabled": true,
-  "isSalaryClient": false
+  "account": "123456789"
 }
+
+
 

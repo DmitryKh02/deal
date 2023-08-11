@@ -1,4 +1,4 @@
-package ru.neoflex.deal.dto.Response;
+package ru.neoflex.deal.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

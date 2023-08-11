@@ -1,32 +1,34 @@
 package ru.neoflex.deal.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
 import java.math.BigDecimal;
 
+@Data
 @Schema(description = "Вариант кредитного предложения")
-public record LoanOfferDTO(
-        @Schema(description = "ID офера")
-        Long applicationId,
+public class LoanOfferDTO {
+    @Schema(description = "ID офера")
+    Long applicationId;
 
-        @Schema(description = "Запрошенная сумма кредита")
-        BigDecimal requestedAmount,
+    @Schema(description = "Запрошенная сумма кредита")
+    BigDecimal requestedAmount;
 
-        @Schema(description = "Итоговая сумма выдаваемого кредита")
-        BigDecimal totalAmount,
+    @Schema(description = "Итоговая сумма выдаваемого кредита")
+    BigDecimal totalAmount;
 
-        @Schema(description = "Срок выдачи кредита в месяцах")
-        Integer term,
+    @Schema(description = "Срок выдачи кредита в месяцах")
+    Integer term;
 
-        @Schema(description = "Месячный платеж")
-        BigDecimal monthlyPayment,
+    @Schema(description = "Месячный платеж")
+    BigDecimal monthlyPayment;
 
-        @Schema(description = "Ставка по кредиту")
-        BigDecimal rate,
+    @Schema(description = "Ставка по кредиту")
+    BigDecimal rate;
 
-        @Schema(description = "Включена ли страховка")
-        Boolean isInsuranceEnabled,
+    @Schema(description = "Включена ли страховка")
+    Boolean isInsuranceEnabled;
 
-        @Schema(description = "Зарплатный клиент (зарплата в этом банке)")
-        Boolean isSalaryClient
-) {}
+    @Schema(description = "Зарплатный клиент (зарплата в этом банке)")
+    Boolean isSalaryClient;
+}
