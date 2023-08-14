@@ -113,7 +113,7 @@ public class DealServiceImpl implements DealService {
      * @param loanApplicationRequestDTO основная информация
      * @return сущность клиента
      */
-    private Client createAndSaveClient(LoanApplicationRequestDTO loanApplicationRequestDTO) {
+    protected Client createAndSaveClient(LoanApplicationRequestDTO loanApplicationRequestDTO) {
         log.debug("DealServiceImpl.mapAndSaveClient - internal data: loanApplicationRequestDTO {}", loanApplicationRequestDTO);
 
         Client client = clientMapper.toClient(loanApplicationRequestDTO);
@@ -133,7 +133,7 @@ public class DealServiceImpl implements DealService {
      * @param client сущность клиента
      * @return получение порядкового номера (id) заявки
      */
-    private Long createAndSaveApplication(Client client) {
+    protected Long createAndSaveApplication(Client client) {
         log.debug("DealServiceImpl.createAndSaveApplication - client {}", client);
 
         //TODO проблема с сериализацией списка
@@ -161,7 +161,7 @@ public class DealServiceImpl implements DealService {
      * @param status статус заявки
      * @return ApplicationStatusHistoryDTO
      */
-    private ApplicationStatusHistoryDTO createAndAddStatusHistory(ApplicationStatus status) {
+    protected ApplicationStatusHistoryDTO createAndAddStatusHistory(ApplicationStatus status) {
         log.debug("DealServiceImpl.createAndSaveApplication - ApplicationStatus {}", status);
 
         ApplicationStatusHistoryDTO applicationStatusHistoryDTO = new ApplicationStatusHistoryDTO(status, LocalDateTime.now(), ChangeType.AUTOMATIC);
@@ -177,7 +177,7 @@ public class DealServiceImpl implements DealService {
      * @param offers        предложения кредита
      * @param applicationId порядковый номер (id) заявки
      */
-    private void updateApplicationId(List<LoanOfferDTO> offers, Long applicationId) {
+    protected void updateApplicationId(List<LoanOfferDTO> offers, Long applicationId) {
         log.debug("DealServiceImpl.updateApplicationId - List<LoanOfferDTO> {}, ApplicationId {}", offers, applicationId);
 
         for (LoanOfferDTO offer : offers) {

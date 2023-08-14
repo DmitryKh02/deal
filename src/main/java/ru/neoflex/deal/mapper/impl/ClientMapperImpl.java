@@ -37,6 +37,7 @@ public class ClientMapperImpl implements ClientMapper {
         client.setMaterialStatus(finishRegistrationRequestDTO.materialStatus());
         client.setAccount(finishRegistrationRequestDTO.account());
 
+        client.getPassport().setPassportId(client.getClientId());
         client.getPassport().setIssueDate(finishRegistrationRequestDTO.passportIssueDate());
         client.getPassport().setIssueBranch(finishRegistrationRequestDTO.passportIssueBranch());
 

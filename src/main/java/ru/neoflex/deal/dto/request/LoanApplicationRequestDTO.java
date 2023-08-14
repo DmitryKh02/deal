@@ -2,12 +2,14 @@ package ru.neoflex.deal.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
+@AllArgsConstructor
 @Schema(description = "Запрос на создание кредитного предложения")
 public class LoanApplicationRequestDTO {
         @Schema(description = "Сумма кредита")

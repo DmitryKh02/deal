@@ -1,11 +1,13 @@
 package ru.neoflex.deal.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.math.BigDecimal;
 
 @Data
+@AllArgsConstructor
 @Schema(description = "Вариант кредитного предложения")
 public class LoanOfferDTO {
     @Schema(description = "ID офера")
