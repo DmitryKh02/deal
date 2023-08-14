@@ -33,7 +33,7 @@ public class ScoringMapperImpl implements ScoringMapper {
     }
 
     private EmploymentDTO getEmploymentDTO(Employment employment){
-        return  new EmploymentDTO(
+        return new EmploymentDTO(
                 employment.status(),
                 employment.employmentINN(),
                 employment.salary(),

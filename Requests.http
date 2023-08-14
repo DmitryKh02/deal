@@ -34,7 +34,7 @@ PUT http://localhost:8000/deal/offer
 Content-Type: application/json
 
 {
-    "applicationId": 5,
+    "applicationId": 15,
     "requestedAmount": 100000,
     "totalAmount": 100000,
     "term": 12,
@@ -45,7 +45,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:8000/deal/calculate/5
+PUT http://localhost:8000/deal/calculate/15
 Content-Type: application/json
 
 {
@@ -58,8 +58,8 @@ Content-Type: application/json
     "employmentStatus": "SELF_EMPLOYED",
     "employerINN": "1234567890",
     "salary": 50000,
-    "workPosition": "TOP_MANAGER",
-    "workExperienceTotal": 19,
+    "position": "TOP_MANAGER",
+    "workExperienceTotal": 20,
     "workExperienceCurrent": 8
   },
   "account": "123456789"

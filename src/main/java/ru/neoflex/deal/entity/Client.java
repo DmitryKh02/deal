@@ -9,7 +9,13 @@ import ru.neoflex.deal.entity.jsonb.Passport;
 import ru.neoflex.deal.enums.Gender;
 import ru.neoflex.deal.enums.MaterialStatus;
 
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.time.LocalDate;
 
 @Data
@@ -20,40 +26,40 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "client_id", nullable = false)
-    Long clientId;
+    private Long clientId;
 
     @Column(name = "first_name", length = 32, nullable = false)
-    String firstName;
+    private String firstName;
 
     @Column(name = "middle_name", length = 32)
-    String middleName;
+    private String middleName;
 
     @Column(name = "last_name", length = 32, nullable = false)
-    String lastName;
+    private String lastName;
 
     @Column(name = "birth_date")
-    LocalDate birthdate;
+    private LocalDate birthdate;
 
     @Column(name = "email", nullable = false)
-    String email;
+    private String email;
 
     @Column(name = "gender")
-    Gender gender;
+    private Gender gender;
 
     @Column(name = "material_status")
-    MaterialStatus materialStatus;
+    private MaterialStatus materialStatus;
 
     @Column(name = "dependent_amount")
-    Integer dependentAmount;
+    private Integer dependentAmount;
 
     @Type(type = "jsonb")
     @Column(name = "passport")
-    Passport passport;
+    private Passport passport;
 
     @Type(type = "jsonb")
     @Column(name = "employment")
-    Employment employment;
+    private Employment employment;
 
     @Column(name = "account")
-    String account;
+    private String account;
 }

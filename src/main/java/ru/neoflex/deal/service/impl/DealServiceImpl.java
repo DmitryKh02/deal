@@ -1,17 +1,21 @@
 package ru.neoflex.deal.service.impl;
 
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.neoflex.deal.dto.LoanOfferDTO;
 import ru.neoflex.deal.dto.request.FinishRegistrationRequestDTO;
 import ru.neoflex.deal.dto.request.LoanApplicationRequestDTO;
+import ru.neoflex.deal.dto.response.CreditDTO;
 import ru.neoflex.deal.dto.response.ScoringDataDTO;
 import ru.neoflex.deal.entity.Application;
 import ru.neoflex.deal.entity.Client;
 import ru.neoflex.deal.entity.jsonb.ApplicationStatusHistoryDTO;
 import ru.neoflex.deal.enums.ApplicationStatus;
 import ru.neoflex.deal.enums.ChangeType;
+import ru.neoflex.deal.exception.BadRequestToServer;
 import ru.neoflex.deal.external.ConveyorServiceDeal;
 import ru.neoflex.deal.mapper.ClientMapper;
 import ru.neoflex.deal.mapper.ScoringMapper;
@@ -36,18 +40,22 @@ public class DealServiceImpl implements DealService {
 
 
     @Override
-    public List<LoanOfferDTO> calculationPossibleCreditConditions(LoanApplicationRequestDTO loanApplicationRequestDTO) {
+    public List<LoanOfferDTO> calculationPossibleCreditConditions(LoanApplicationRequestDTO loanApplicationRequestDTO) throws RuntimeException {
         log.trace("DealServiceImpl.calculationPossibleCreditConditions - internal data: loanApplicationRequestDTO {}", loanApplicationRequestDTO);
 
-        Client client = createAndSaveClient(loanApplicationRequestDTO);
+        List<LoanOfferDTO> responseList;
+        try {
+            responseList = conveyorServiceDeal.calculationPossibleCreditConditions(loanApplicationRequestDTO).getBody();
+        } catch (FeignException ex) {
+            log.warn("DealServiceImpl.calculationPossibleCreditConditions - bad request to conveyor server");
+            throw new BadRequestToServer(ex.responseBody());
+        }
 
+        Client client = createAndSaveClient(loanApplicationRequestDTO);
         Long applicationId = createAndSaveApplication(client);
 
-        List<LoanOfferDTO> responseList = null;
-        List<LoanOfferDTO> requestList = conveyorServiceDeal.calculationPossibleCreditConditions(loanApplicationRequestDTO).getBody();
-
-        if (requestList != null) {
-             responseList= updateApplicationId(requestList, applicationId);
+        if (responseList != null) {
+            updateApplicationId(responseList, applicationId);
         }
 
         log.trace("DealServiceImpl.calculationPossibleCreditConditions - list of loanOfferDTO: {}", responseList);
@@ -56,9 +64,8 @@ public class DealServiceImpl implements DealService {
 
     @Override
     public void savingCreditApplication(LoanOfferDTO loanOfferDTO) {
-        // TODO document why this method is empty
+        // Метод savingCreditApplication предназначен для сохранения заявки пользователя
         log.trace("DealServiceImpl.savingCreditApplication - internal data: LoanOfferDTO {}", loanOfferDTO);
-
 
         Application application = applicationRepository.getReferenceById(loanOfferDTO.getApplicationId());
         //application.addStatus(createStatus(ApplicationStatus.APPROVED));
@@ -67,26 +74,32 @@ public class DealServiceImpl implements DealService {
         application.setSignDate(LocalDateTime.now());
 
         log.trace("DealServiceImpl.savingCreditApplication - application {}", application);
+
         applicationRepository.save(application);
 
         log.trace("DealServiceImpl.savingCreditApplication - End of work and no such exception");
     }
 
     @Override
-    public void finishRegistration(FinishRegistrationRequestDTO finishRegistrationRequestDTO, Long applicationId) {
-        // TODO document why this method is empty
+    public void finishRegistration(FinishRegistrationRequestDTO finishRegistrationRequestDTO, Long applicationId) throws RuntimeException {
+        // Метод finishRegistration завершает регистрацию
         log.trace("DealServiceImpl.finishRegistration - internal data: FinishRegistrationRequestDTO {}", finishRegistrationRequestDTO);
 
-        Application application = applicationRepository.getReferenceById(applicationId);
+        Application application = null;
+        application = applicationRepository.getReferenceById(applicationId);
 
         Client client = application.getClient();
-        client = clientMapper.finishClient(client,finishRegistrationRequestDTO);
+        client = clientMapper.finishClient(client, finishRegistrationRequestDTO);
         clientRepository.save(client);
 
         ScoringDataDTO scoringDataDTO = scoringMapper.toScoringDataDTO(application);
         log.trace("DealServiceImpl.finishRegistration - ScoringDataDTO {}", scoringDataDTO);
 
-        conveyorServiceDeal.calculationCreditParameters(scoringDataDTO);
+        try {
+            ResponseEntity<CreditDTO> response = conveyorServiceDeal.calculationCreditParameters(scoringDataDTO);
+        } catch (FeignException ex) {
+            throw new BadRequestToServer(ex.responseBody());
+        }
 
         log.trace("DealServiceImpl.finishRegistration - End of work and no such exception");
     }
@@ -94,6 +107,12 @@ public class DealServiceImpl implements DealService {
 
 
 
+    /**
+     * Создание и сохранение клиента
+     * <p>
+     * @param loanApplicationRequestDTO основная информация
+     * @return сущность клиента
+     */
     private Client createAndSaveClient(LoanApplicationRequestDTO loanApplicationRequestDTO) {
         log.debug("DealServiceImpl.mapAndSaveClient - internal data: loanApplicationRequestDTO {}", loanApplicationRequestDTO);
 
@@ -108,6 +127,12 @@ public class DealServiceImpl implements DealService {
         return client;
     }
 
+    /**
+     * Создание и сохранение заявки
+     * <p>
+     * @param client сущность клиента
+     * @return получение порядкового номера (id) заявки
+     */
     private Long createAndSaveApplication(Client client) {
         log.debug("DealServiceImpl.createAndSaveApplication - client {}", client);
 
@@ -129,7 +154,14 @@ public class DealServiceImpl implements DealService {
         return applicationId;
     }
 
-    private ApplicationStatusHistoryDTO createStatus(ApplicationStatus status) {
+
+    /**
+     * Создание и добавление статуса истории заявки
+     * <p>
+     * @param status статус заявки
+     * @return ApplicationStatusHistoryDTO
+     */
+    private ApplicationStatusHistoryDTO createAndAddStatusHistory(ApplicationStatus status) {
         log.debug("DealServiceImpl.createAndSaveApplication - ApplicationStatus {}", status);
 
         ApplicationStatusHistoryDTO applicationStatusHistoryDTO = new ApplicationStatusHistoryDTO(status, LocalDateTime.now(), ChangeType.AUTOMATIC);
@@ -139,7 +171,13 @@ public class DealServiceImpl implements DealService {
         return applicationStatusHistoryDTO;
     }
 
-    private List<LoanOfferDTO> updateApplicationId(List<LoanOfferDTO> offers, Long applicationId) {
+    /**
+     * Обновление порядкового номера (id) заявки в предложениях кредита
+     *
+     * @param offers        предложения кредита
+     * @param applicationId порядковый номер (id) заявки
+     */
+    private void updateApplicationId(List<LoanOfferDTO> offers, Long applicationId) {
         log.debug("DealServiceImpl.updateApplicationId - List<LoanOfferDTO> {}, ApplicationId {}", offers, applicationId);
 
         for (LoanOfferDTO offer : offers) {
@@ -148,6 +186,5 @@ public class DealServiceImpl implements DealService {
 
         log.debug("DealServiceImpl.updateApplicationId - List<LoanOfferDTO> {}", offers);
 
-        return offers;
     }
 }
