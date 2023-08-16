@@ -17,3 +17,6 @@ logging:
     trace: ru.neoflex.deal.controller, ru.neoflex.deal.service
   level:
     trace: TRACE
+internal:
+  server:
+      url: http://localhost:8080/

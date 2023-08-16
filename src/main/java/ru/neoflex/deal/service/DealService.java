@@ -8,12 +8,6 @@ import java.util.List;
 
 public interface DealService {
 
-    /**
-     * Инициализация клиента и его заявки
-     *
-     * @param loanApplicationRequestDTO основная информация о клиенте
-     * @return список предложений кредита
-     */
     List<LoanOfferDTO> calculationPossibleCreditConditions(LoanApplicationRequestDTO loanApplicationRequestDTO);
 
     void savingCreditApplication(LoanOfferDTO loanOfferDTO);

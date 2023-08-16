@@ -11,7 +11,7 @@ import ru.neoflex.deal.dto.request.LoanApplicationRequestDTO;
 
 import java.util.List;
 
-@FeignClient(name="conveyor", url = "http://localhost:8080/")
+@FeignClient(name="conveyor", url = "${internal.server.url}")
 public interface ConveyorServiceDeal {
 
     @PostMapping(value = "/conveyor/offers")

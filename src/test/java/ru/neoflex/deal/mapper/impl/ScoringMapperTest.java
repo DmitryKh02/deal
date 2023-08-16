@@ -10,7 +10,11 @@ import ru.neoflex.deal.entity.Application;
 import ru.neoflex.deal.entity.Client;
 import ru.neoflex.deal.entity.jsonb.Employment;
 import ru.neoflex.deal.entity.jsonb.Passport;
-import ru.neoflex.deal.enums.*;
+import ru.neoflex.deal.enums.EmploymentStatus;
+import ru.neoflex.deal.enums.Gender;
+import ru.neoflex.deal.enums.MaterialStatus;
+import ru.neoflex.deal.enums.WorkPosition;
+import ru.neoflex.deal.enums.ApplicationStatus;
 import ru.neoflex.deal.mapper.ScoringMapper;
 
 import java.math.BigDecimal;
