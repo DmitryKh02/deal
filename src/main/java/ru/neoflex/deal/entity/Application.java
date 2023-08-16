@@ -10,14 +10,7 @@ import ru.neoflex.deal.entity.jsonb.ApplicationStatusHistoryDTO;
 import ru.neoflex.deal.enums.ApplicationStatus;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.GeneratedValue;
-import javax.persistence.JoinColumn;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

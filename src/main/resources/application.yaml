@@ -7,13 +7,13 @@ spring:
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
     hibernate:
       ddl-auto: update
 server:
   port: 8000
 logging:
   group:
-    trace: ru.neoflex.conveyor, ru.neoflex.service, ru.neoflex.utils
+    trace: ru.neoflex.deal.controller, ru.neoflex.deal.service
   level:
     trace: TRACE
