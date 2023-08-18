@@ -22,7 +22,7 @@ public class ExceptionDealHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(EntityNotFoundException.class)
     public String onInvalidApplicationId(EntityNotFoundException ex) {
-        log.warn("DealServiceImpl.calculationPossibleCreditConditions - cannot found application by id {}", ex.getLocalizedMessage());
+        log.warn("Cannot found application by id {}", ex.getLocalizedMessage());
         return ex.getLocalizedMessage();
     }
 

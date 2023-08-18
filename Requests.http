@@ -34,7 +34,7 @@ PUT http://localhost:8000/deal/offer
 Content-Type: application/json
 
 {
-    "applicationId": 21,
+    "applicationId": 25,
     "requestedAmount": 100000,
     "totalAmount": 100000,
     "term": 12,
@@ -45,7 +45,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:8000/deal/calculate/15
+PUT http://localhost:8000/deal/calculate/25
 Content-Type: application/json
 
 {

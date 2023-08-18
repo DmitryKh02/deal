@@ -11,6 +11,9 @@ import ru.neoflex.deal.mapper.ScoringMapper;
 public class ScoringMapperImpl implements ScoringMapper {
     @Override
     public ScoringDataDTO toScoringDataDTO(Application application) {
+        if (application == null) {
+            return null;
+        }
         return new ScoringDataDTO(
                 application.getAppliedOffer().getTotalAmount(),
                 application.getAppliedOffer().getTerm(),
@@ -33,6 +36,9 @@ public class ScoringMapperImpl implements ScoringMapper {
     }
 
     private EmploymentDTO getEmploymentDTO(Employment employment){
+        if (employment == null) {
+            return null;
+        }
         return new EmploymentDTO(
                 employment.status(),
                 employment.employmentINN(),

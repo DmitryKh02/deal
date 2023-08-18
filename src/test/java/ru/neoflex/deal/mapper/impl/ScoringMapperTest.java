@@ -31,7 +31,7 @@ class ScoringMapperTest {
 
     @Test
     void ScoringMapper_ToScoringDataDTO_ReturnScoringDataDTO(){
-        ScoringDataDTO validDataDTO = new ScoringDataDTO(
+        ScoringDataDTO expectedScoringDataDTO = new ScoringDataDTO(
                 BigDecimal.valueOf(100000),
                 4,
                 "Ivan",
@@ -98,7 +98,9 @@ class ScoringMapperTest {
         application.setSignDate(LocalDateTime.now());
         application.setSesCode("SES_CODE");
         application.setStatusHistoryList(null);
-        Assertions.assertEquals(validDataDTO, scoringMapper.toScoringDataDTO(application));
+
+        ScoringDataDTO actualScoringDataDTO = scoringMapper.toScoringDataDTO(application);
+        Assertions.assertEquals(expectedScoringDataDTO, actualScoringDataDTO);
     }
 
 }

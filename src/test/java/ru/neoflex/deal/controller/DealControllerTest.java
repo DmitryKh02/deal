@@ -17,6 +17,7 @@ import ru.neoflex.deal.service.DealService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -54,7 +55,7 @@ class DealControllerTest {
                 "123456"
         );
 
-        List<LoanOfferDTO> expectedLoanOffers = new ArrayList<>();
+
 
         LoanOfferDTO loanOffer1 = new LoanOfferDTO(12L, BigDecimal.valueOf(150000), BigDecimal.valueOf(151500.00),
                 24, BigDecimal.valueOf(6547.17), BigDecimal.valueOf(4.5), true, true);
@@ -68,10 +69,7 @@ class DealControllerTest {
         LoanOfferDTO loanOffer4 = new LoanOfferDTO(12L, BigDecimal.valueOf(150000), BigDecimal.valueOf(150000),
                 24, BigDecimal.valueOf(6818.35), BigDecimal.valueOf(8.5), false, false);
 
-        expectedLoanOffers.add(0, loanOffer1);
-        expectedLoanOffers.add(1, loanOffer2);
-        expectedLoanOffers.add(2, loanOffer3);
-        expectedLoanOffers.add(3, loanOffer4);
+        List<LoanOfferDTO> expectedLoanOffers = new ArrayList<>(Arrays.asList(loanOffer1,loanOffer2,loanOffer3,loanOffer4));
 
         when(dealService.calculationPossibleCreditConditions(loanApplicationRequestDTO)).thenReturn(expectedLoanOffers);
 

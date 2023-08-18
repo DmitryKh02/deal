@@ -39,31 +39,24 @@ class ClientMapperTest {
                 "123456"
         );
 
-        Client client = new Client();
+        Client expectedClient = new Client();
         Passport passport = new Passport();
-        client.setFirstName("Ivan");
-        client.setLastName("Petrov");
-        client.setEmail("ivan@example.com");
-        client.setBirthdate(LocalDate.of(1990, 8, 10));
+        expectedClient.setFirstName("Ivan");
+        expectedClient.setLastName("Petrov");
+        expectedClient.setEmail("ivan@example.com");
+        expectedClient.setBirthdate(LocalDate.of(1990, 8, 10));
         passport.setSeries("5678");
         passport.setNumber("123456");
-        client.setPassport(passport);
+        expectedClient.setPassport(passport);
 
-        Assertions.assertEquals(client, clientMapper.toClient(loanApplicationRequestDTO));
+        Client actualClient = clientMapper.toClient(loanApplicationRequestDTO);
+
+        Assertions.assertEquals(expectedClient, actualClient);
     }
 
     @Test
     void ClientMapper_FinishClient_ReturnClient(){
-        Client client = new Client();
-        Passport passport = new Passport();
-        client.setClientId(5L);
-        client.setFirstName("Ivan");
-        client.setLastName("Petrov");
-        client.setEmail("ivan@example.com");
-        client.setBirthdate(LocalDate.of(1990, 8, 10));
-        passport.setSeries("5678");
-        passport.setNumber("123456");
-        client.setPassport(passport);
+        Client internalDateClient = getClient();
 
         FinishRegistrationRequestDTO finishRegistrationRequestDTO = new FinishRegistrationRequestDTO(
                 Gender.MALE,
@@ -81,9 +74,8 @@ class ClientMapperTest {
                 "12334324");
 
 
-        Client client2 = new Client();
-        Passport passport2 = new Passport();
-        client2.setEmployment(new Employment(
+        Client expectedClient = getClient();
+        expectedClient.setEmployment(new Employment(
                 5L,
                 EmploymentStatus.BUSINESS_OWNER,
                 "2324234",
@@ -92,22 +84,30 @@ class ClientMapperTest {
                 24,
                 3));
 
-        client2.setClientId(5L);
-        client2.setFirstName("Ivan");
-        client2.setLastName("Petrov");
-        client2.setEmail("ivan@example.com");
-        client2.setGender(Gender.MALE);
-        client2.setMaterialStatus(MaterialStatus.SINGLE);
-        client2.setDependentAmount(0);
-        client2.setBirthdate(LocalDate.of(1990, 8, 10));
-        passport2.setSeries("5678");
-        passport2.setNumber("123456");
-        passport2.setIssueBranch("V");
-        passport2.setPassportId(5L);
-        passport2.setIssueDate(LocalDate.parse("2002-04-23"));
-        client2.setPassport(passport2);
-        client2.setAccount("12334324");
 
-        Assertions.assertEquals(client2,clientMapper.finishClient(client,finishRegistrationRequestDTO));
+        expectedClient.setGender(Gender.MALE);
+        expectedClient.setMaterialStatus(MaterialStatus.SINGLE);
+        expectedClient.setDependentAmount(0);
+        expectedClient.getPassport().setIssueBranch("V");
+        expectedClient.getPassport().setPassportId(5L);
+        expectedClient.getPassport().setIssueDate(LocalDate.parse("2002-04-23"));
+        expectedClient.setAccount("12334324");
+
+        Client actualClient = clientMapper.finishClient(internalDateClient,finishRegistrationRequestDTO);
+        Assertions.assertEquals(expectedClient,actualClient);
+    }
+
+    private static Client getClient() {
+        Client internalDateClient = new Client();
+        Passport internalDateClientPassport = new Passport();
+        internalDateClient.setClientId(5L);
+        internalDateClient.setFirstName("Ivan");
+        internalDateClient.setLastName("Petrov");
+        internalDateClient.setEmail("ivan@example.com");
+        internalDateClient.setBirthdate(LocalDate.of(1990, 8, 10));
+        internalDateClientPassport.setSeries("5678");
+        internalDateClientPassport.setNumber("123456");
+        internalDateClient.setPassport(internalDateClientPassport);
+        return internalDateClient;
     }
 }

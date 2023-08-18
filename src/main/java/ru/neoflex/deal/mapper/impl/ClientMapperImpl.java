@@ -13,6 +13,10 @@ import ru.neoflex.deal.mapper.ClientMapper;
 public class ClientMapperImpl implements ClientMapper {
     @Override
     public Client toClient(LoanApplicationRequestDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+
         Client client = new Client();
 
         client.setFirstName(dto.getFirstName());
@@ -32,6 +36,10 @@ public class ClientMapperImpl implements ClientMapper {
 
     @Override
     public Client finishClient(Client client, FinishRegistrationRequestDTO finishRegistrationRequestDTO) {
+        if (finishRegistrationRequestDTO == null) {
+            return null;
+        }
+
         client.setDependentAmount(finishRegistrationRequestDTO.dependentAmount());
         client.setGender(finishRegistrationRequestDTO.gender());
         client.setMaterialStatus(finishRegistrationRequestDTO.materialStatus());
@@ -47,6 +55,10 @@ public class ClientMapperImpl implements ClientMapper {
     }
 
     private Employment getEmployment(Long clientId, EmploymentDTO employmentDTO){
+        if (clientId == null || employmentDTO == null) {
+            return null;
+        }
+
         return new Employment(clientId,
                 employmentDTO.employmentStatus(),
                 employmentDTO.employerINN(),

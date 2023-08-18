@@ -11,26 +11,26 @@ import java.math.BigDecimal;
 @Schema(description = "Вариант кредитного предложения")
 public class LoanOfferDTO {
     @Schema(description = "ID офера")
-    Long applicationId;
+    private Long applicationId;
 
     @Schema(description = "Запрошенная сумма кредита")
-    BigDecimal requestedAmount;
+    private BigDecimal requestedAmount;
 
     @Schema(description = "Итоговая сумма выдаваемого кредита")
-    BigDecimal totalAmount;
+    private BigDecimal totalAmount;
 
     @Schema(description = "Срок выдачи кредита в месяцах")
-    Integer term;
+    private Integer term;
 
     @Schema(description = "Месячный платеж")
-    BigDecimal monthlyPayment;
+    private BigDecimal monthlyPayment;
 
     @Schema(description = "Ставка по кредиту")
-    BigDecimal rate;
+    private BigDecimal rate;
 
     @Schema(description = "Включена ли страховка")
-    Boolean isInsuranceEnabled;
+    private Boolean isInsuranceEnabled;
 
     @Schema(description = "Зарплатный клиент (зарплата в этом банке)")
-    Boolean isSalaryClient;
+    private Boolean isSalaryClient;
 }

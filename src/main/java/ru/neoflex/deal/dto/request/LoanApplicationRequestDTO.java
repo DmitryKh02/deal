@@ -13,30 +13,30 @@ import java.time.LocalDate;
 @Schema(description = "Запрос на создание кредитного предложения")
 public class LoanApplicationRequestDTO {
         @Schema(description = "Сумма кредита")
-        BigDecimal amount;
+        private BigDecimal amount;
 
         @Schema(description = "Срок выдачи кредита в месяцах")
-        Integer term;
+        private Integer term;
 
         @Schema(description = "Имя")
-        String firstName;
+        private String firstName;
 
         @Schema(description = "Фамилия")
-        String lastName;
+        private String lastName;
 
         @Schema(description = "Отчество")
         @JsonInclude(JsonInclude.Include.NON_NULL)
-        String middleName;
+        private String middleName;
 
         @Schema(description = "E-mail")
-        String email;
+        private String email;
 
         @Schema(description = "День рождения")
-        LocalDate birthdate;
+        private LocalDate birthdate;
 
         @Schema(description = "Серия паспорта")
-        String passportSeries;
+        private String passportSeries;
 
         @Schema(description = "Номер паспорта")
-        String passportNumber;
+        private String passportNumber;
 }

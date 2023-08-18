@@ -9,8 +9,18 @@ import ru.neoflex.deal.dto.LoanOfferDTO;
 import ru.neoflex.deal.entity.jsonb.ApplicationStatusHistoryDTO;
 import ru.neoflex.deal.enums.ApplicationStatus;
 
-
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
+import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ElementCollection;
+import javax.persistence.CollectionTable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +44,8 @@ public class Application {
     @JoinColumn(name = "credit_id")
     private Credit credit;
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private ApplicationStatus status;
 
     @Column(name = "creation_date", nullable = false)
@@ -51,16 +62,16 @@ public class Application {
     private String sesCode;
 
     @Type(type = "jsonb")
+    @ElementCollection
+    @CollectionTable(name="status_history_list")
     @Column(name = "status_history")
     private List<ApplicationStatusHistoryDTO> statusHistoryList;
 
-    public Application(Client client, ApplicationStatus status, LocalDateTime creationDate, String sesCode, ApplicationStatusHistoryDTO statusHistoryDTO) {
+    public Application(Client client, LocalDateTime creationDate, String sesCode) {
         this.client = client;
-        this.status = status;
         this.creationDate = creationDate;
         this.sesCode = sesCode;
         this.statusHistoryList = new ArrayList<>();
-        this.statusHistoryList.add(statusHistoryDTO);
     }
 
     public void addStatus(ApplicationStatusHistoryDTO status){

@@ -2,23 +2,29 @@ package ru.neoflex.deal.entity;
 
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import ru.neoflex.deal.dto.response.PaymentSchedule;
 import ru.neoflex.deal.enums.CreditStatus;
 
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Column;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
+import javax.persistence.ElementCollection;
+import javax.persistence.CollectionTable;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @Entity
 @Table(name = "credit")
+@NoArgsConstructor
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class Credit {
 
@@ -40,8 +46,10 @@ public class Credit {
     private BigDecimal psk;
 
     @Type(type = "jsonb")
-    @Column(name = "payment_schedule", nullable = false)
-    private PaymentSchedule paymentSchedule;
+    @ElementCollection
+    @CollectionTable(name = "payment_schedule_list")
+    @Column(name = "payment_schedule")
+    private List<PaymentSchedule> paymentSchedule;
 
     @Column(name = "insurance_enable", nullable = false)
     private Boolean insuranceEnable;
@@ -49,6 +57,17 @@ public class Credit {
     @Column(name = "salary_client", nullable = false)
     private Boolean salaryClient;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "credit_status", nullable = false)
     private CreditStatus creditStatus;
+
+    public Credit(Integer term, BigDecimal monthlyPayment, BigDecimal rate, BigDecimal psk, List<PaymentSchedule> paymentSchedule, Boolean insuranceEnable, Boolean salaryClient) {
+        this.term = term;
+        this.monthlyPayment = monthlyPayment;
+        this.rate = rate;
+        this.psk = psk;
+        this.paymentSchedule = paymentSchedule;
+        this.insuranceEnable = insuranceEnable;
+        this.salaryClient = salaryClient;
+    }
 }
