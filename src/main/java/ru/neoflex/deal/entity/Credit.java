@@ -16,8 +16,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import javax.persistence.Enumerated;
 import javax.persistence.EnumType;
-import javax.persistence.ElementCollection;
-import javax.persistence.CollectionTable;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -46,8 +44,6 @@ public class Credit {
     private BigDecimal psk;
 
     @Type(type = "jsonb")
-    @ElementCollection
-    @CollectionTable(name = "payment_schedule_list")
     @Column(name = "payment_schedule")
     private List<PaymentSchedule> paymentSchedule;
 

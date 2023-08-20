@@ -19,8 +19,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.EnumType;
 import javax.persistence.OneToOne;
 import javax.persistence.JoinColumn;
-import javax.persistence.ElementCollection;
-import javax.persistence.CollectionTable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,8 +60,6 @@ public class Application {
     private String sesCode;
 
     @Type(type = "jsonb")
-    @ElementCollection
-    @CollectionTable(name="status_history_list")
     @Column(name = "status_history")
     private List<ApplicationStatusHistoryDTO> statusHistoryList;
 

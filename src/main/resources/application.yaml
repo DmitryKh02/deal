@@ -14,9 +14,9 @@ server:
   port: 8000
 logging:
   group:
-    business-flow: ru.neoflex.deal.controller, ru.neoflex.deal.service
+    deal-business-flow: ru.neoflex.deal.controller, ru.neoflex.deal.service
   level:
-    business-flow: TRACE
+    deal-business-flow: TRACE
 internal:
   server:
-      url: http://localhost:8080/
+    url: http://localhost:8080/

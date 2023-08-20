@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.ToString;
 import ru.neoflex.deal.dto.request.EmploymentDTO;
 import ru.neoflex.deal.enums.Gender;
 import ru.neoflex.deal.enums.MaterialStatus;
@@ -14,7 +13,6 @@ import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
-@ToString
 @Schema(description = "Данные для оформления кредита")
 public class ScoringDataDTO {
         @Schema(description = "Сумма кредита")

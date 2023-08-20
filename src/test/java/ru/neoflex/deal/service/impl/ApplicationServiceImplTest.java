@@ -9,7 +9,10 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.neoflex.deal.entity.Application;
 import ru.neoflex.deal.entity.Client;
+import ru.neoflex.deal.entity.jsonb.ApplicationStatusHistoryDTO;
 import ru.neoflex.deal.entity.jsonb.Passport;
+import ru.neoflex.deal.enums.ApplicationStatus;
+import ru.neoflex.deal.enums.ChangeType;
 import ru.neoflex.deal.repository.ApplicationRepository;
 
 import java.time.LocalDate;
@@ -40,12 +43,12 @@ class ApplicationServiceImplTest {
         Application expectedApplication = new Application(client,
                 LocalDateTime.now().withNano(0),
                 "SES_CODE");
-//        expectedApplication.setStatus(ApplicationStatus.PREAPPROVAL);
-//        expectedApplication.addStatus(
-//                new ApplicationStatusHistoryDTO(
-//                        ApplicationStatus.PREAPPROVAL,
-//                        LocalDateTime.now().withNano(0),
-//                        ChangeType.AUTOMATIC));
+        expectedApplication.setStatus(ApplicationStatus.PREAPPROVAL);
+        expectedApplication.addStatus(
+                new ApplicationStatusHistoryDTO(
+                        ApplicationStatus.PREAPPROVAL,
+                        LocalDateTime.now().withNano(0),
+                        ChangeType.AUTOMATIC));
 
         when(applicationRepository.save(Mockito.any(Application.class))).thenReturn(expectedApplication);
 
