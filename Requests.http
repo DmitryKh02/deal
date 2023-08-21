@@ -1,0 +1,69 @@
+### валидные данные
+POST http://localhost:8000/deal/application
+Content-Type: application/json
+
+{
+  "amount": 100000,
+  "term": 12,
+  "firstName": "Anna",
+  "lastName": "Ivanova",
+  "middleName": "Sidorova",
+  "email": "anna@example.com",
+  "birthdate": "2002-05-07",
+  "passportSeries": "1234",
+  "passportNumber": "567890"
+}
+
+### не валидные данные
+POST http://localhost:8080/conveyor/offers
+Content-Type: application/json
+
+{
+  "amount": 150000,
+  "term": 24,
+  "firstName": "Ivan",
+  "lastName": "Petrov",
+  "email": "@example.com",
+  "birthdate": "2020-08-10",
+  "passportSeries": "56785",
+  "passportNumber": "1234568"
+}
+
+###
+PUT http://localhost:8000/deal/offer
+Content-Type: application/json
+
+{
+    "applicationId": 25,
+    "requestedAmount": 100000,
+    "totalAmount": 100000,
+    "term": 12,
+    "monthlyPayment": 8675.74,
+    "rate": 7.5,
+    "isInsuranceEnabled": false,
+    "isSalaryClient": true
+}
+
+###
+PUT http://localhost:8000/deal/calculate/25
+Content-Type: application/json
+
+{
+  "gender": "MALE",
+  "materialStatus": "MARRIED",
+  "dependentAmount": 2,
+  "passportIssueDate": "2023-07-18",
+  "passportIssueBranch": "Passport Office",
+  "employmentDTO": {
+    "employmentStatus": "SELF_EMPLOYED",
+    "employerINN": "1234567890",
+    "salary": 50000,
+    "position": "TOP_MANAGER",
+    "workExperienceTotal": 20,
+    "workExperienceCurrent": 8
+  },
+  "account": "123456789"
+}
+
+
+

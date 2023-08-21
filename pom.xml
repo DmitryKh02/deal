@@ -20,10 +20,17 @@
 		<java.version>17</java.version>
 		<swagger.core.version>2.2.15</swagger.core.version>
 		<springdoc.version>1.7.0</springdoc.version>
+		<hibernate-types-52.version>2.2.2</hibernate-types-52.version>
+		<openfeign.version>3.1.4</openfeign.version>
 		<jackson-datatype.version>2.15.2</jackson-datatype.version>
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -57,6 +64,19 @@
 			<artifactId>springdoc-openapi-ui</artifactId>
 			<version>${springdoc.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.vladmihalcea</groupId>
+			<artifactId>hibernate-types-52</artifactId>
+			<version>${hibernate-types-52.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+			<version>${openfeign.version}</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>

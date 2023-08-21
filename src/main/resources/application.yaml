@@ -7,6 +7,16 @@ spring:
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
+server:
+  port: 8000
+logging:
+  group:
+    deal-business-flow: ru.neoflex.deal.controller, ru.neoflex.deal.service
+  level:
+    deal-business-flow: TRACE
+internal:
+  server:
+    url: http://localhost:8080/
