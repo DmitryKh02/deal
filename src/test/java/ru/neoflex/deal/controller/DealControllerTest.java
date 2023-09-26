@@ -10,9 +10,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import ru.neoflex.deal.configuration.kafka.KafkaTopic;
 import ru.neoflex.deal.dto.LoanOfferDTO;
 import ru.neoflex.deal.dto.request.LoanApplicationRequestDTO;
 import ru.neoflex.deal.service.DealService;
+import ru.neoflex.deal.service.KafkaMessageService;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -30,6 +32,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(DealController.class)
 @ExtendWith(MockitoExtension.class)
 class DealControllerTest {
+    @MockBean
+    private KafkaTopic kafkaTopic;
+    @MockBean
+    private KafkaMessageService messageService;
     @MockBean
     private DealService dealService;
     @InjectMocks
@@ -76,7 +82,6 @@ class DealControllerTest {
         mockMvc.perform(post("/deal/application")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loanApplicationRequestDTO)))
-                .andExpect(status().isOk())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(4)))

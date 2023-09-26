@@ -34,7 +34,7 @@ PUT http://localhost:8000/deal/offer
 Content-Type: application/json
 
 {
-    "applicationId": 25,
+    "applicationId": 41,
     "requestedAmount": 100000,
     "totalAmount": 100000,
     "term": 12,
@@ -45,25 +45,39 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:8000/deal/calculate/25
+PUT http://localhost:8000/deal/calculate/1
 Content-Type: application/json
 
 {
-  "gender": "MALE",
+  "gender": "NOT_BINARY",
   "materialStatus": "MARRIED",
   "dependentAmount": 2,
-  "passportIssueDate": "2023-07-18",
+  "passportIssueDate": "2005-07-18",
   "passportIssueBranch": "Passport Office",
   "employmentDTO": {
     "employmentStatus": "SELF_EMPLOYED",
     "employerINN": "1234567890",
-    "salary": 50000,
-    "position": "TOP_MANAGER",
-    "workExperienceTotal": 20,
-    "workExperienceCurrent": 8
+    "salary": 30000,
+    "position": "MIDDLE_MANAGER",
+    "workExperienceTotal": 28,
+    "workExperienceCurrent": 12
   },
   "account": "123456789"
 }
+
+
+###
+POST http://localhost:8000/deal/document/2/send
+Content-Type: application/x-www-form-urlencoded
+
+###
+POST http://localhost:8000/deal/document/1/sign
+Content-Type: application/x-www-form-urlencoded
+
+###
+POST http://localhost:8000/deal/document/3/code
+Content-Type: application/x-www-form-urlencoded
+
 
 
 

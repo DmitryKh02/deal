@@ -10,11 +10,15 @@ import java.util.List;
 public interface ApplicationService {
     Application createAndSaveApplication(Client client);
 
-    Application getApplication(Long applicationId);
-
     void updateListLoanOfferDTOByApplicationId(List<LoanOfferDTO> responseList, Long applicationId);
 
     void updateApplicationByLoanOfferDTO(LoanOfferDTO loanOfferDTO);
 
     void setCreditAndSaveApplication(Application application, Credit credit);
+
+    String getClientEmailByApplicationId(Long applicationId);
+
+    Application getApplication(Long applicationId);
+
+    List<Application> getAllApplications();
 }

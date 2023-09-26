@@ -12,7 +12,9 @@ import ru.neoflex.deal.dto.response.CreditDTO;
 import ru.neoflex.deal.dto.response.ScoringDataDTO;
 import ru.neoflex.deal.entity.Application;
 import ru.neoflex.deal.entity.Client;
-import ru.neoflex.deal.exception.BadRequestToServer;
+import ru.neoflex.deal.exception.ServiceInternalError;
+import ru.neoflex.deal.exception.ErrorMessage;
+import ru.neoflex.deal.exception.BadRequestToService;
 import ru.neoflex.deal.external.ConveyorServiceDeal;
 import ru.neoflex.deal.mapper.ScoringMapper;
 import ru.neoflex.deal.service.ApplicationService;
@@ -20,6 +22,7 @@ import ru.neoflex.deal.service.ClientService;
 import ru.neoflex.deal.service.CreditService;
 import ru.neoflex.deal.service.DealService;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Slf4j
@@ -35,7 +38,7 @@ public class DealServiceImpl implements DealService {
     private final CreditService creditService;
 
     @Override
-    public List<LoanOfferDTO> calculationPossibleCreditConditions(LoanApplicationRequestDTO loanApplicationRequestDTO) throws RuntimeException {
+    public List<LoanOfferDTO> calculationPossibleCreditConditions(LoanApplicationRequestDTO loanApplicationRequestDTO) throws BadRequestToService, ServiceInternalError {
         log.trace("DealServiceImpl.calculationPossibleCreditConditions - internal data: loanApplicationRequestDTO {}", loanApplicationRequestDTO);
 
         List<LoanOfferDTO> responseList;
@@ -43,7 +46,13 @@ public class DealServiceImpl implements DealService {
             responseList = conveyorServiceDeal.calculationPossibleCreditConditions(loanApplicationRequestDTO).getBody();
         } catch (FeignException ex) {
             log.warn("DealServiceImpl.calculationPossibleCreditConditions - bad request to conveyor server");
-            throw new BadRequestToServer(ex.responseBody());
+
+            if(ex.responseBody().isPresent()) {
+                throw new BadRequestToService(ex.responseBody());
+            }
+            else {
+                throw new ServiceInternalError(new ErrorMessage("DealServiceImpl.calculationPossibleCreditConditions - Internal conveyor service error ",ex.getMessage()));
+            }
         }
 
         Client client = clientService.createAndSaveClient(loanApplicationRequestDTO);
@@ -68,7 +77,7 @@ public class DealServiceImpl implements DealService {
     }
 
     @Override
-    public void finishRegistration(FinishRegistrationRequestDTO finishRegistrationRequestDTO, Long applicationId) throws RuntimeException {
+    public void finishRegistration(FinishRegistrationRequestDTO finishRegistrationRequestDTO, Long applicationId) throws BadRequestToService, ServiceInternalError {
         // Метод finishRegistration завершает регистрацию
         log.trace("DealServiceImpl.finishRegistration - internal data: FinishRegistrationRequestDTO {}", finishRegistrationRequestDTO);
 
@@ -79,13 +88,34 @@ public class DealServiceImpl implements DealService {
         log.debug("DealServiceImpl.finishRegistration - ScoringDataDTO {}", scoringDataDTO);
 
         ResponseEntity<CreditDTO> response;
+
         try {
             response = conveyorServiceDeal.calculationCreditParameters(scoringDataDTO);
         } catch (FeignException ex) {
-            throw new BadRequestToServer(ex.responseBody());
+            log.warn("DealServiceImpl.finishRegistration - bad request to conveyor server");
+
+            if(ex.responseBody().isPresent()) {
+                throw new BadRequestToService(ex.responseBody());
+            }
+            else {
+                throw new ServiceInternalError(new ErrorMessage("DealServiceImpl.finishRegistration - Internal conveyor service error ",ex.getMessage()));
+            }
         }
 
         applicationService.setCreditAndSaveApplication(application, creditService.createAndSaveCredit(response.getBody()));
+
+
+    }
+
+    @Override
+    public Application getApplicationById(Long applicationId) throws EntityNotFoundException {
+        log.trace("DealServiceImpl.getApplicationById - internal data: ApplicationId {}", applicationId);
+        return applicationService.getApplication(applicationId);
+    }
+
+    @Override
+    public List<Application> getAllApplications() {
+        return applicationService.getAllApplications();
     }
 
 

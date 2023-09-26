@@ -17,7 +17,7 @@ public class CreditMapperImpl implements CreditMapper {
                 creditDTO.monthlyPayment(),
                 creditDTO.rate(),
                 creditDTO.psk(),
-                creditDTO.paymentSchedule(),
+                creditDTO.paymentScheduleList(),
                 creditDTO.isInsuranceEnabled(),
                 creditDTO.isSalaryClient()
         );

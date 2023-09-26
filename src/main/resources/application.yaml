@@ -1,22 +1,53 @@
 spring:
+  application:
+    name: deal
+  kafka:
+    producer:
+      bootstrap-servers: "kafka:9092"
+
+  liquibase:
+    enabled: true
+
+  jackson:
+    deserialization:
+      read-unknown-enum-values-as-null : true
+    serialization:
+      fail-on-empty-beans: false
+
   datasource:
-    url: jdbc:postgresql://localhost:5432/deal
+#    url: jdbc:postgresql://localhost:5432/deal
+    url: jdbc:postgresql://deal-db:5432/deal
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
+
   jpa:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL10Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
+
 server:
   port: 8000
+
 logging:
   group:
     deal-business-flow: ru.neoflex.deal.controller, ru.neoflex.deal.service
   level:
     deal-business-flow: TRACE
+
 internal:
   server:
-    url: http://localhost:8080/
+#    url: http://localhost:8002/conveyor
+     url: http://conveyor:8002/conveyor
+
+application:
+  kafka:
+    topics:
+      - finish-registration: "finish-registration"
+      - create-documents: "create-documents"
+      - send-documents: "send-documents"
+      - send-ses: "send-ses"
+      - credit-issued: "credit-issued"
+      - application-denied: "application-denied"

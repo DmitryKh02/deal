@@ -1,5 +1,6 @@
 package ru.neoflex.deal.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,14 +9,7 @@ import org.hibernate.annotations.TypeDef;
 import ru.neoflex.deal.dto.response.PaymentSchedule;
 import ru.neoflex.deal.enums.CreditStatus;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Column;
-import javax.persistence.Enumerated;
-import javax.persistence.EnumType;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -43,9 +37,13 @@ public class Credit {
     @Column(name = "psk", nullable = false)
     private BigDecimal psk;
 
+    @JsonIgnore
     @Type(type = "jsonb")
     @Column(name = "payment_schedule")
-    private List<PaymentSchedule> paymentSchedule;
+    private String paymentScheduleString;
+
+    @Transient
+    private List<PaymentSchedule> paymentScheduleList;
 
     @Column(name = "insurance_enable", nullable = false)
     private Boolean insuranceEnable;
@@ -57,12 +55,12 @@ public class Credit {
     @Column(name = "credit_status", nullable = false)
     private CreditStatus creditStatus;
 
-    public Credit(Integer term, BigDecimal monthlyPayment, BigDecimal rate, BigDecimal psk, List<PaymentSchedule> paymentSchedule, Boolean insuranceEnable, Boolean salaryClient) {
+    public Credit(Integer term, BigDecimal monthlyPayment, BigDecimal rate, BigDecimal psk, List<PaymentSchedule> paymentScheduleList, Boolean insuranceEnable, Boolean salaryClient) {
         this.term = term;
         this.monthlyPayment = monthlyPayment;
         this.rate = rate;
         this.psk = psk;
-        this.paymentSchedule = paymentSchedule;
+        this.paymentScheduleList = paymentScheduleList;
         this.insuranceEnable = insuranceEnable;
         this.salaryClient = salaryClient;
     }

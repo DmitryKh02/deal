@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import ru.neoflex.deal.exception.BadRequestToServer;
+import ru.neoflex.deal.exception.ServiceInternalError;
+import ru.neoflex.deal.exception.BadRequestToService;
 import ru.neoflex.deal.exception.ErrorMessage;
 
 import javax.persistence.EntityNotFoundException;
@@ -27,9 +28,16 @@ public class ExceptionDealHandler {
     }
 
     @ResponseBody
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(ServiceInternalError.class)
+    public ErrorMessage badRequestToAnotherServer(ServiceInternalError ex) {
+        return ex.getErrorMessage();
+    }
+
+    @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(BadRequestToServer.class)
-    public JsonNode onOtherServerException(BadRequestToServer ex) throws IOException {
+    @ExceptionHandler(BadRequestToService.class)
+    public JsonNode onOtherServerException(BadRequestToService ex) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readTree(ex.getResponse());
     }

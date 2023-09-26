@@ -9,25 +9,25 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Schema(description = "Список платежей")
 public class PaymentSchedule {
         @Schema(description = "Номер платежа")
-        private Integer number;
+        Integer number;
 
         @Schema(description = "Дата платежа")
-        private LocalDate date;
+        LocalDate date;
 
         @Schema(description = "Общая сумма платежа")
-        private BigDecimal totalPayment;
+        BigDecimal totalPayment;
 
         @Schema(description = "Погашение долга")
-        private BigDecimal interestPayment;
+        BigDecimal interestPayment;
 
         @Schema(description = "Погашение процентов")
-        private BigDecimal debtPayment;
+        BigDecimal debtPayment;
 
         @Schema(description = "Оставшийся долг")
-        private BigDecimal remainingDebt;
+        BigDecimal remainingDebt;
 }

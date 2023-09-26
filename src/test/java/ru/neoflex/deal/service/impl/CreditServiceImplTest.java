@@ -12,16 +12,20 @@ import ru.neoflex.deal.entity.Credit;
 import ru.neoflex.deal.enums.CreditStatus;
 import ru.neoflex.deal.mapper.CreditMapper;
 import ru.neoflex.deal.repository.CreditRepository;
+import ru.neoflex.deal.utils.StringListConverter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class CreditServiceImplTest {
+    @Mock
+    private StringListConverter converter;
     @Mock
     CreditMapper creditMapper;
     @Mock
@@ -32,8 +36,6 @@ class CreditServiceImplTest {
 
     @Test
     void CreditService_CreateAndSaveCredit_ReturnCredit() {
-        List<PaymentSchedule> paymentScheduleList = new ArrayList<>();
-
         PaymentSchedule paymentSchedule = new PaymentSchedule(1,
                 LocalDate.parse("2023-08-18"),
                 BigDecimal.valueOf(25444.27),
@@ -62,10 +64,8 @@ class CreditServiceImplTest {
                 BigDecimal.valueOf(178.96),
                 BigDecimal.valueOf(0.00));
 
-        paymentScheduleList.add(0,paymentSchedule);
-        paymentScheduleList.add(1,paymentSchedule1);
-        paymentScheduleList.add(2,paymentSchedule2);
-        paymentScheduleList.add(3,paymentSchedule3);
+        List<PaymentSchedule> paymentScheduleList = new ArrayList<>(Arrays.asList(paymentSchedule, paymentSchedule1, paymentSchedule2, paymentSchedule3));
+
 
         Credit expectedCredit = new Credit(
                 4,
@@ -75,6 +75,9 @@ class CreditServiceImplTest {
                 paymentScheduleList,
                 true,
                 true);
+        
+        List<Object> objectList = new ArrayList<>(paymentScheduleList);
+        expectedCredit.setPaymentScheduleString(StringListConverter.listToString(objectList));
         expectedCredit.setCreditStatus(CreditStatus.CALCULATED);
 
         CreditDTO creditDTO = new CreditDTO(

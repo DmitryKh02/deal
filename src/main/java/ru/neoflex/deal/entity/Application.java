@@ -1,5 +1,7 @@
 package ru.neoflex.deal.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,16 +11,7 @@ import ru.neoflex.deal.dto.LoanOfferDTO;
 import ru.neoflex.deal.entity.jsonb.ApplicationStatusHistoryDTO;
 import ru.neoflex.deal.enums.ApplicationStatus;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Column;
-import javax.persistence.Enumerated;
-import javax.persistence.EnumType;
-import javax.persistence.OneToOne;
-import javax.persistence.JoinColumn;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +21,7 @@ import java.util.List;
 @Table(name = "application")
 @NoArgsConstructor
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Application {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,9 +53,13 @@ public class Application {
     @Column(name = "ses_code", nullable = false)
     private String sesCode;
 
+    @Transient
+    private List<ApplicationStatusHistoryDTO> statusHistoryList;
+
+    @JsonIgnore
     @Type(type = "jsonb")
     @Column(name = "status_history")
-    private List<ApplicationStatusHistoryDTO> statusHistoryList;
+    private String statusHistoryString;
 
     public Application(Client client, LocalDateTime creationDate, String sesCode) {
         this.client = client;

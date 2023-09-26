@@ -1,0 +1,30 @@
+services:
+  deal-db:
+    image: postgres
+    container_name: deal-db
+    environment:
+      POSTGRES_DB: deal
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"  # Прокидывает порт PostgreSQL на хост
+
+#  # Сервис для Apache Kafka (запуск с помощью Confluent Community Docker Image)
+#  kafka:
+#    image: confluentinc/cp-kafka:5.5.11.amd64
+#    container_name: kafka-container
+#    ports:
+#      - "9091:9091"  # Прокидывает порт Kafka на хост
+#    environment:
+#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092
+
+
+  # Сервис для Spring Boot приложения
+  spring-app:
+    image: deal
+    container_name: deal-application
+    ports:
+      - "8000:8000"  # Прокидывает порт Spring Boot приложения на хост
+    depends_on:
+      - deal-db
+      #- kafka  # Гарантирует запуск PostgreSQL и Kafka перед Spring Boot приложением

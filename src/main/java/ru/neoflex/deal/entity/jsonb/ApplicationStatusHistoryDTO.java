@@ -6,13 +6,13 @@ import lombok.NoArgsConstructor;
 import ru.neoflex.deal.enums.ApplicationStatus;
 import ru.neoflex.deal.enums.ChangeType;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
 public class ApplicationStatusHistoryDTO{
         private ApplicationStatus status;
-        private LocalDateTime timestamp;
+        private Timestamp timestamp;
         private ChangeType changeType;
 }

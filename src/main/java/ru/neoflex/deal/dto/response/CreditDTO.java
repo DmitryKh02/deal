@@ -1,5 +1,6 @@
 package ru.neoflex.deal.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.math.BigDecimal;
@@ -29,5 +30,6 @@ public record CreditDTO(
         Boolean isSalaryClient,
 
         @Schema(description = "График ежемесячных платежей")
-        List<PaymentSchedule> paymentSchedule
+        @JsonProperty("paymentSchedule")
+        List<PaymentSchedule> paymentScheduleList
 ) {}
