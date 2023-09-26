@@ -41,7 +41,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 
         Application application = new Application(client,
-                LocalDateTime.now().withNano(0).withSecond(0),
+                LocalDateTime.now().withSecond(0).withNano(0),
                 "SES_CODE");
         createAddAndSetStatusHistory(application, ApplicationStatus.PREAPPROVAL);
 
@@ -169,7 +169,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         ApplicationStatusHistoryDTO applicationStatusHistoryDTO = new ApplicationStatusHistoryDTO(
                 status,
-                Timestamp.valueOf(LocalDateTime.now().withNano(0)),
+                Timestamp.valueOf(LocalDateTime.now().withSecond(0).withNano(0)),
                 ChangeType.AUTOMATIC);
 
         if (application.getStatusHistoryList() == null) {

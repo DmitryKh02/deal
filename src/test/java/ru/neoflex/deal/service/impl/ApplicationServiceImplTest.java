@@ -42,17 +42,17 @@ class ApplicationServiceImplTest {
         client.setPassport(passport);
 
         Application expectedApplication = new Application(client,
-                LocalDateTime.now().withNano(0).withSecond(0),
+                LocalDateTime.now().withSecond(0).withNano(0),
                 "SES_CODE");
         expectedApplication.setStatus(ApplicationStatus.PREAPPROVAL);
         expectedApplication.addStatus(
                 new ApplicationStatusHistoryDTO(
                         ApplicationStatus.PREAPPROVAL,
-                        Timestamp.valueOf(LocalDateTime.now().withNano(0)),
+                        Timestamp.valueOf(LocalDateTime.now().withSecond(0).withNano(0)),
                         ChangeType.AUTOMATIC));
 
 
-        expectedApplication.setStatusHistoryString("{\"status\":\"PREAPPROVAL\",\"timestamp\":" + Timestamp.valueOf(LocalDateTime.now().withNano(0)).getTime() + ",\"changeType\":\"AUTOMATIC\"};");
+        expectedApplication.setStatusHistoryString("{\"status\":\"PREAPPROVAL\",\"timestamp\":" + Timestamp.valueOf(LocalDateTime.now().withSecond(0).withNano(0)).getTime() + ",\"changeType\":\"AUTOMATIC\"};");
         when(applicationRepository.save(Mockito.any(Application.class))).thenReturn(expectedApplication);
 
         Application actualApplication = applicationService.createAndSaveApplication(client);
